@@ -5,7 +5,6 @@ public class Block : MonoBehaviour
     public float fallSpeed = 1f;
     private bool isFalling = true;
 
-    public BlockSpawner blockSpawner;
 
     private void Update()
     {
@@ -18,7 +17,7 @@ public class Block : MonoBehaviour
             isFalling = false;
             SnapToGrid();
             GridManager.AddToGrid(transform);
-            blockSpawner.OnBlockLanded();
+            EventManager.instance.ReachedEnd();
         }
     }
 

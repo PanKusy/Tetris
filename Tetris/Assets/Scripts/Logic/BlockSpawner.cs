@@ -1,37 +1,41 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class BlockSpawner : MonoBehaviour
 {
     public GameObject[] block;
     public Transform spawnPoint;
     private GameObject currentBlock;
+    private Scene scene;
 
+
+    private void Awake()
+    {
+        scene = SceneManager.GetSceneByName("UIScene");
+    }
 
     private void Start()
     {
         SpawnBlock();
     }
 
-    public static event Action<GameObject, Vector3> OnSpawnBlock;
+    private void OnEnable()
+    {
+        EventManager.instance.onReachedEnd += SpawnBlock;
+    }
+    private void OnDisable()
+    {
+        EventManager.instance.onReachedEnd -= SpawnBlock;
+    }
+
     public void SpawnBlock()
     {
         int index = UnityEngine.Random.Range(0, block.Length);
-        //GameObject newBlock = Instantiate(block[index], spawnPoint.position, Quaternion.identity);
-        Vector3 spawnPoint = new Vector3(5, 18, 0);
-        OnSpawnBlock?.Invoke(block[index], spawnPoint);
-        //currentBlock = newBlock;
+        Vector3 spawnPoint = new Vector3(Settings.instance.boardWidth / 2, Settings.instance.boardHeight - 2, 0);
+        GameObject newBlock = Instantiate(block[index], spawnPoint, Quaternion.identity);
 
-        //Block blockScript = newBlock.GetComponent<Block>();
-        //blockScript.blockSpawner = this;
-
-
+        SceneManager.MoveGameObjectToScene(newBlock, scene);
     }
-
-    public void OnBlockLanded()
-    {
-        SpawnBlock();
-    }
-
-
 }
