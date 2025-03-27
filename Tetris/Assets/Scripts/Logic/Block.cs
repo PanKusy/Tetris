@@ -5,6 +5,10 @@ public class Block : MonoBehaviour
     public float fallSpeed = 1f;
     private bool isFalling = true;
 
+    private void Start()
+    {
+        fallSpeed = Settings.instance.fallSpeed;
+    }
 
     private void Update()
     {
@@ -27,7 +31,6 @@ public class Block : MonoBehaviour
         {
             Vector2 pos = GridManager.Round(child.position + Vector3.down * fallSpeed * Time.deltaTime);
 
-            // Jeœli pod segmentem jest ju¿ coœ w siatce – stop
             if (pos.y < 0 || GridManager.IsOccupied(pos))
                 return true;
         }

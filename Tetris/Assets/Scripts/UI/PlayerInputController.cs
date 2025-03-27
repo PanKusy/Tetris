@@ -1,54 +1,66 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GameUI
+public class PlayerInputController : MonoBehaviour
 {
-    public class PlayerInputController : MonoBehaviour
+    public InputActionAsset inputActions;
+    private InputAction moveAction;
+
+    private GameObject activePiece;
+
+    private float moveCooldown = 0.2f;
+    private float lastMoveTime;
+
+    private void Awake()
     {
-        public Block currentBlock; // przypnij klocek w Inspectorze
+        var map = inputActions.FindActionMap("Player");
+        moveAction = map.FindAction("Move");
+        moveAction.Enable();
+    }
+    private void OnEnable()
+    {
+        EventManager.instance.onBlockSpawned += SetActivePiece;
+    }
+    private void OnDisable()
+    {
+        EventManager.instance.onBlockSpawned -= SetActivePiece;
+    }
 
-        private float moveCooldown = 0.2f;
-        private float moveTimer = 0f;
+    public void SetActivePiece(GameObject piece)
+    {
+        activePiece = piece;
+    }
 
-        private Vector2 moveInput;
+    private void Update()
+    {
+        if (activePiece == null) return;
 
-        private void Update()
+        float moveInput = moveAction.ReadValue<Vector2>().x;
+
+        if (Mathf.Abs(moveInput) > 0.1f && Time.time - lastMoveTime > moveCooldown)
         {
-            moveTimer += Time.deltaTime;
-
-            if (moveInput.x != 0 && moveTimer >= moveCooldown)
+            Vector3 direction = Vector3.right * Mathf.Sign(moveInput);
+            
+            if (CanMove(direction))
             {
-                TryMove((int)Mathf.Sign(moveInput.x));
-                moveTimer = 0f;
+                activePiece.transform.position += direction;
+                lastMoveTime = Time.time;
+            }
+        }
+    }
+
+    private bool CanMove(Vector3 direction)
+    {
+        foreach (Transform block in activePiece.transform)
+        {
+            Vector3 newPosition = block.position + direction;
+
+            if (newPosition.x < 0 || newPosition.x >= Settings.instance.boardWidth)
+            {
+                return false;
             }
         }
 
-        public void OnMove(InputValue value)
-        {
-            moveInput = value.Get<Vector2>();
-        }
-
-        private void TryMove(int direction)
-        {
-            if (currentBlock == null) return;
-
-            Vector3 move = new Vector3(direction, 0, 0);
-            if (CanMove(move))
-            {
-                currentBlock.transform.position += move;
-            }
-        }
-
-        private bool CanMove(Vector3 move)
-        {
-            foreach (Transform child in currentBlock.transform)
-            {
-                Vector2 newPos = GridManager.Round(child.position + move);
-
-                if (!GridManager.InsideBorder(newPos)) return false;
-                if (GridManager.IsOccupied(newPos)) return false;
-            }
-            return true;
-        }
+        return true;
     }
 }

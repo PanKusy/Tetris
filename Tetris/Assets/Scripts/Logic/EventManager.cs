@@ -10,10 +10,18 @@ public class EventManager : MonoBehaviour
             instance = this;
         else Destroy(gameObject);
     }
+    //-------------------------------------
+
 
     public event Action onReachedEnd;
     public void ReachedEnd()
     {
         onReachedEnd?.Invoke();
+    }
+
+    public event Action<GameObject> onBlockSpawned;
+    public void BlockSpawned(GameObject gameObject)
+    {
+        onBlockSpawned?.Invoke(gameObject);
     }
 }
