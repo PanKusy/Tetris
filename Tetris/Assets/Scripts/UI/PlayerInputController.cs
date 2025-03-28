@@ -8,7 +8,7 @@ public class PlayerInputController : MonoBehaviour
 
     private GameObject activePiece;
 
-    private float moveCooldown = 0.2f;
+    private float moveCooldown = 0.1f;
     private float lastMoveTime;
 
     private void Awake()
@@ -55,7 +55,7 @@ public class PlayerInputController : MonoBehaviour
         {
             Vector3 newPosition = block.position + direction;
 
-            if (newPosition.x < 0 || newPosition.x >= Settings.instance.boardWidth)
+            if (!GridManager.InsideBorder(newPosition) || GridManager.IsOccupied(newPosition))
             {
                 return false;
             }

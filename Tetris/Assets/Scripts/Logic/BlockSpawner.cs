@@ -31,10 +31,14 @@ public class BlockSpawner : MonoBehaviour
     public void SpawnBlock()
     {
         int index = UnityEngine.Random.Range(0, block.Length);
-        Vector3 spawnPoint = new Vector3(Settings.instance.boardWidth / 2, Settings.instance.boardHeight - 2, 0);
-        GameObject newBlock = Instantiate(block[index], spawnPoint, Quaternion.identity);
-        EventManager.instance.BlockSpawned(newBlock);
+        //Vector3 spawnPoint = new Vector3(Settings.instance.boardWidth / 2, Settings.instance.boardHeight - 2, 0);
+        Vector3 spawnPoint = GameManager.instance.player1SpawnPoint;
 
-        SceneManager.MoveGameObjectToScene(newBlock, scene);
+        if (!GridManager.IsOccupied(spawnPoint))
+        {
+            GameObject newBlock = Instantiate(block[index], spawnPoint, Quaternion.identity);
+            EventManager.instance.BlockSpawned(newBlock);
+            SceneManager.MoveGameObjectToScene(newBlock, scene);
+        }
     }
 }

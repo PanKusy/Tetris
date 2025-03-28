@@ -7,7 +7,7 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
-        fallSpeed = Settings.instance.fallSpeed;
+        fallSpeed = GameManager.instance.fallSpeed;
     }
 
     private void Update()
@@ -21,6 +21,7 @@ public class Block : MonoBehaviour
             isFalling = false;
             SnapToGrid();
             GridManager.AddToGrid(transform);
+            GridManager.CheckForFullLines();
             EventManager.instance.ReachedEnd();
         }
     }

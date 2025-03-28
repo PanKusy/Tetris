@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static Settings instance;
+    public static GameManager instance;
 
     private void Awake()
     {
@@ -16,4 +16,9 @@ public class Settings : MonoBehaviour
 
     public int boardWidth = 10;
     public int boardHeight = 20;
+
+    public Vector3 player1SpawnPoint = new Vector3(15, 18, 0);
+    public Vector3 player2SpawnPoint = new Vector3(-15, 18, 0);
+
+
 }
