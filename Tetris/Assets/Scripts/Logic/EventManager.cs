@@ -24,4 +24,10 @@ public class EventManager : MonoBehaviour
     {
         onBlockSpawned?.Invoke(gameObject, player);
     }
+
+    public event Action<GridManager, Player> onAssignGridManager;
+    public void AssignGridManager(GridManager gridManager, Player player)
+    {
+        onAssignGridManager?.Invoke(gridManager, player);
+    }
 }

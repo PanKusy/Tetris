@@ -6,6 +6,7 @@ public class PlayerInputController : MonoBehaviour
     public InputActionAsset inputActions;
     private InputAction moveAction;
     private GridManager gridManager;
+    public Player player;
 
     private GameObject activePiece;
 
@@ -14,26 +15,43 @@ public class PlayerInputController : MonoBehaviour
 
     private void Awake()
     {
-        var map = inputActions.FindActionMap("Player");
-        moveAction = map.FindAction("Move");
+        if (player == Player.player1)
+        {
+            var map = inputActions.FindActionMap("Player");
+            moveAction = map.FindAction("Move");
+        }
+        else
+        {
+            var map = inputActions.FindActionMap("Player2");
+            moveAction = map.FindAction("Move");
+        }
         moveAction.Enable();
     }
-    private void Start()
-    {
-        gridManager = FindFirstObjectByType<GridManager>(); 
-    }
+
     private void OnEnable()
     {
         EventManager.instance.onBlockSpawned += SetActivePiece;
+        EventManager.instance.onAssignGridManager += SetGridManager;
     }
     private void OnDisable()
     {
         EventManager.instance.onBlockSpawned -= SetActivePiece;
+        EventManager.instance.onAssignGridManager -= SetGridManager;
+    }
+
+    private void SetGridManager(GridManager gridManager, Player player)
+    {
+        if (this.player == player)
+            this.gridManager = gridManager;
     }
 
     public void SetActivePiece(GameObject piece, Player player)
     {
-        activePiece = piece;
+        if (this.player == player)
+            activePiece = piece;
+
+        //if (gridManager == null)
+        //    gridManager = activePiece.GetComponent<GridManager>();
     }
 
     private void Update()

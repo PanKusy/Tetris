@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     {
         spawner = FindFirstObjectByType<BlockSpawner>();
         gridManager.InitializeGrid(spawnPoint);
+        EventManager.instance.AssignGridManager(gridManager, player);
         SpawnBlock(player);
     }
 
