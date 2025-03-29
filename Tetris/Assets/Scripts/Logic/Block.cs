@@ -4,10 +4,12 @@ public class Block : MonoBehaviour
 {
     public float fallSpeed = 1f;
     private bool isFalling = true;
+    public GridManager gridManager;
 
     private void Start()
     {
         fallSpeed = GameManager.instance.fallSpeed;
+        gridManager = FindFirstObjectByType<GridManager>();
     }
 
     private void Update()
@@ -20,8 +22,8 @@ public class Block : MonoBehaviour
         {
             isFalling = false;
             SnapToGrid();
-            GridManager.AddToGrid(transform);
-            GridManager.CheckForFullLines();
+            gridManager.AddToGrid(transform);
+            gridManager.CheckForFullLines();
             EventManager.instance.ReachedEnd();
         }
     }
@@ -30,9 +32,9 @@ public class Block : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            Vector2 pos = GridManager.Round(child.position + Vector3.down * fallSpeed * Time.deltaTime);
+            Vector2 pos = gridManager.Round(child.position + Vector3.down * fallSpeed * Time.deltaTime);
 
-            if (pos.y < 0 || GridManager.IsOccupied(pos))
+            if (pos.y < 0 || gridManager.IsOccupied(pos))
                 return true;
         }
         return false;

@@ -5,6 +5,7 @@ public class PlayerInputController : MonoBehaviour
 {
     public InputActionAsset inputActions;
     private InputAction moveAction;
+    private GridManager gridManager;
 
     private GameObject activePiece;
 
@@ -16,6 +17,10 @@ public class PlayerInputController : MonoBehaviour
         var map = inputActions.FindActionMap("Player");
         moveAction = map.FindAction("Move");
         moveAction.Enable();
+    }
+    private void Start()
+    {
+        gridManager = FindFirstObjectByType<GridManager>(); 
     }
     private void OnEnable()
     {
@@ -55,7 +60,7 @@ public class PlayerInputController : MonoBehaviour
         {
             Vector3 newPosition = block.position + direction;
 
-            if (!GridManager.InsideBorder(newPosition) || GridManager.IsOccupied(newPosition))
+            if (!gridManager.InsideBorder(newPosition) || gridManager.IsOccupied(newPosition))
             {
                 return false;
             }

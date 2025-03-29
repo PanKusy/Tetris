@@ -4,8 +4,9 @@ using UnityEngine.SceneManagement;
 public class BlockSpawner : MonoBehaviour
 {
     public GameObject[] block;
-    public Transform spawnPoint;
+    //public Transform spawnPoint;
     private Scene scene;
+    public GridManager gridManager;
 
 
     private void Awake()
@@ -15,7 +16,7 @@ public class BlockSpawner : MonoBehaviour
 
     private void Start()
     {
-        SpawnBlock();
+        //SpawnBlock();
     }
 
     private void OnEnable()
@@ -34,7 +35,7 @@ public class BlockSpawner : MonoBehaviour
         //Vector3 spawnPoint = new Vector3(Settings.instance.boardWidth / 2, Settings.instance.boardHeight - 2, 0);
         Vector3 spawnPoint = GameManager.instance.player1SpawnPoint;
 
-        if (!GridManager.IsOccupied(spawnPoint))
+        if (!gridManager.IsOccupied(spawnPoint))
         {
             GameObject newBlock = Instantiate(block[index], spawnPoint, Quaternion.identity);
             EventManager.instance.BlockSpawned(newBlock);
