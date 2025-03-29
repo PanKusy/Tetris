@@ -13,15 +13,15 @@ public class EventManager : MonoBehaviour
     //-------------------------------------
 
 
-    public event Action onReachedEnd;
-    public void ReachedEnd()
+    public event Action<Player> onReachedEnd;
+    public void ReachedEnd(Player player)
     {
-        onReachedEnd?.Invoke();
+        onReachedEnd?.Invoke(player);
     }
 
-    public event Action<GameObject> onBlockSpawned;
-    public void BlockSpawned(GameObject gameObject)
+    public event Action<GameObject, Player> onBlockSpawned;
+    public void BlockSpawned(GameObject gameObject, Player player)
     {
-        onBlockSpawned?.Invoke(gameObject);
+        onBlockSpawned?.Invoke(gameObject, player);
     }
 }

@@ -7,7 +7,7 @@ public class GridManager : MonoBehaviour
     public float minX;
     public float maxX;
 
-    public  Transform[,] grid;
+    public Transform[,] grid;
 
     public void InitializeGrid(Vector3 spawnPoint)
     {
@@ -43,6 +43,7 @@ public class GridManager : MonoBehaviour
             if (gridX >= 0 && gridX < width && gridY >= 0 && gridY < height)
             {
                 grid[gridX, gridY] = child;
+                //Debug.Log($"Zapisano segment na pozycji [{gridX}, {gridY}]");
             }
         }
     }

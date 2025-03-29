@@ -5,11 +5,11 @@ public class Block : MonoBehaviour
     public float fallSpeed = 1f;
     private bool isFalling = true;
     public GridManager gridManager;
+    public Player player;
 
     private void Start()
     {
         fallSpeed = GameManager.instance.fallSpeed;
-        gridManager = FindFirstObjectByType<GridManager>();
     }
 
     private void Update()
@@ -24,7 +24,7 @@ public class Block : MonoBehaviour
             SnapToGrid();
             gridManager.AddToGrid(transform);
             gridManager.CheckForFullLines();
-            EventManager.instance.ReachedEnd();
+            EventManager.instance.ReachedEnd(player);
         }
     }
 

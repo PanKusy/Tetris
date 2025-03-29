@@ -31,7 +31,7 @@ public class PlayerInputController : MonoBehaviour
         EventManager.instance.onBlockSpawned -= SetActivePiece;
     }
 
-    public void SetActivePiece(GameObject piece)
+    public void SetActivePiece(GameObject piece, Player player)
     {
         activePiece = piece;
     }

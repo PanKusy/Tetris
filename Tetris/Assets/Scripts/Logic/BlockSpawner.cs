@@ -4,41 +4,27 @@ using UnityEngine.SceneManagement;
 public class BlockSpawner : MonoBehaviour
 {
     public GameObject[] block;
-    //public Transform spawnPoint;
     private Scene scene;
-    public GridManager gridManager;
-
 
     private void Awake()
     {
         scene = SceneManager.GetSceneByName("UIScene");
     }
 
-    private void Start()
-    {
-        //SpawnBlock();
-    }
-
-    private void OnEnable()
-    {
-        if (EventManager.instance != null)
-            EventManager.instance.onReachedEnd += SpawnBlock;
-    }
-    private void OnDisable()
-    {
-        EventManager.instance.onReachedEnd -= SpawnBlock;
-    }
-
-    public void SpawnBlock()
+    public void SpawnBlock(Vector3 spawnPoint, Player player, GridManager gridManager)
     {
         int index = UnityEngine.Random.Range(0, block.Length);
-        //Vector3 spawnPoint = new Vector3(Settings.instance.boardWidth / 2, Settings.instance.boardHeight - 2, 0);
-        Vector3 spawnPoint = GameManager.instance.player1SpawnPoint;
 
         if (!gridManager.IsOccupied(spawnPoint))
         {
             GameObject newBlock = Instantiate(block[index], spawnPoint, Quaternion.identity);
-            EventManager.instance.BlockSpawned(newBlock);
+            Block blockScript = newBlock.GetComponent<Block>();
+            if (blockScript != null)
+            {
+                blockScript.player = player;
+                blockScript.gridManager = gridManager;
+            }
+            EventManager.instance.BlockSpawned(newBlock, player);
             SceneManager.MoveGameObjectToScene(newBlock, scene);
         }
     }
