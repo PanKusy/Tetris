@@ -30,4 +30,10 @@ public class EventManager : MonoBehaviour
     {
         onAssignGridManager?.Invoke(gridManager, player);
     }
+
+    public event Action<Player> onLineCleared;
+    public void LineCleared(Player player)
+    {
+        onLineCleared?.Invoke(player);
+    }
 }

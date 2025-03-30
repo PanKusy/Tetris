@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804578c8d50b8c847a364771cba055af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: 0
   width: 0
   height: 0
   minX: 0
@@ -245,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804578c8d50b8c847a364771cba055af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: 1
   width: 0
   height: 0
   minX: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public Player player;
     public int width;
     public int height;
     public float minX;
@@ -43,7 +44,7 @@ public class GridManager : MonoBehaviour
             if (gridX >= 0 && gridX < width && gridY >= 0 && gridY < height)
             {
                 grid[gridX, gridY] = child;
-                //Debug.Log($"Zapisano segment na pozycji [{gridX}, {gridY}]");
+                //Debug.Log($"Block saved on position: [{gridX}, {gridY}]");
             }
         }
     }
@@ -93,6 +94,7 @@ public class GridManager : MonoBehaviour
                 grid[x, y] = null;
             }
         }
+        EventManager.instance.LineCleared(player);
     }
 
     private void MoveAllLinesDown(int startY)
