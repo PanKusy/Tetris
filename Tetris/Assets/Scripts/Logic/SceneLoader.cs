@@ -7,9 +7,12 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
-        scene = SceneManager.GetSceneByName("UIScene");
+        if (!Application.isEditor)
+        {
+            scene = SceneManager.GetSceneByName("UIScene");
 
-        if (!scene.isLoaded)
-            SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
+            if (!scene.isLoaded)
+                SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
+        }
     }
 }
